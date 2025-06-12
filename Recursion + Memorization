@@ -1,0 +1,34 @@
+// Maximum Bridge Question //
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int maximumBridges(int a[], int b[], int n, int m, vector<vector<int>> &dp) {
+    if (n == 0 || m == 0)
+        return 0;
+
+    if (dp[n][m] != -1)  // Check memo table
+        return dp[n][m];
+
+    if (a[n - 1] == b[m - 1]) {
+        dp[n][m] = 1 + maximumBridges(a, b, n - 1, m - 1, dp);
+    } else {
+        dp[n][m] = max(maximumBridges(a, b, n, m - 1, dp),
+                       maximumBridges(a, b, n - 1, m, dp));
+    }
+
+    return dp[n][m];
+}
+
+int main() {
+    int a[] = {1, 2, 2, 2, 1, 2};
+    int b[] = {1, 2, 1, 2, 2, 1, 2, 2};
+    int n = 6, m = 8;
+
+    // Initialize memo table with -1
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+
+    cout << maximumBridges(a, b, n, m, dp) << " ways to have bridges between a and b";
+}

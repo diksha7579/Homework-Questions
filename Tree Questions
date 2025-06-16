@@ -1,0 +1,62 @@
+           //Tree creation and Level order Traversal//
+
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node*left,*right;
+    
+    Node(int value){
+        data=value;
+        left=right=NULL;
+    }
+};
+
+vector<int>LevelOrder(Node*root){
+    queue<Node*>q;
+     vector<int>ans;
+     if(root == NULL) 
+     return ans;
+    q.push(root);
+      Node*temp;
+       while(!q.empty()){
+          temp=q.front();
+          q.pop();
+          ans.push_back(temp->data);
+          if(temp->left){
+              q.push(temp->left);
+          }
+          if(temp->right){
+              q.push(temp->right);
+          }
+    }
+    return ans;
+}
+
+Node* BinaryTree(){
+    int x;
+    cin>>x;
+    if(x==-1)
+     return NULL;
+     Node*temp=new Node(x);
+     cout<<"Enter the left child of "<<x<<": ";
+     temp->left=BinaryTree();
+     cout<<"Enter the right child of"<<x<<": ";
+     temp->right=BinaryTree();
+     return temp;
+}
+int main() {
+    cout << "Enter the root element: ";
+    Node* root = BinaryTree();
+    vector<int> result = LevelOrder(root);
+    cout << "Level order traversal: ";
+    for (int val : result) {
+        cout << val << " ";
+    }
+    cout << endl;
+    return 0;
+}
